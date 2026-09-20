@@ -11,19 +11,23 @@ int main()
     printf("       BANK MANAGEMENT SYSTEM       \n");
     printf("====================================\n");
 
-    Account account1;
+    Account accounts[100];
+    int account_count = 0;
+
     printf("Enter your account number: ");
-    scanf("%d",&account1.account_number);
+    scanf("%d", &accounts[account_count].account_number);
 
     printf("Enter your name: ");
-    scanf("%s",account1.name);
+    scanf("%s", accounts[account_count].name);
 
     printf("Enter your balance: ");
-    scanf("%f",&account1.balance);
+    scanf("%f", &accounts[account_count].balance);
 
-    printf("Account Number: %d\n", account1.account_number);
-    printf("Account Name: %s\n", account1.name);
-    printf("Account Balance: %.2f\n", account1.balance);
+    account_count++;
+
+    printf("Account Number: %d\n", accounts[0].account_number);
+    printf("Account Name: %s\n", accounts[0].name);
+    printf("Account Balance: %.2f\n", accounts[0].balance);
 
     return 0;
 }
