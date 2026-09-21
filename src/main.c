@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 typedef struct
 {
     int account_number;
@@ -41,10 +42,29 @@ int main()
 
     Account accounts[100];
     int account_count = 0;
+    int choice;
 
-    add_account(accounts, &account_count);
-    add_account(accounts, &account_count);
+    while (1)
+    {
 
-    display_accounts(accounts, account_count);
+        printf("1. Add Account: \n");
+        printf("2. Display Account: \n");
+        printf("3. Exit: \n");
+        scanf("%d", &choice);
+        switch (choice)
+        {
+        case 1:
+            add_account(accounts, &account_count);
+            break;
+        case 2:
+            display_accounts(accounts, account_count);
+            break;
+        case 3:
+            exit(0);
+        default:
+            break;
+        }
+    }
+
     return 0;
 }
