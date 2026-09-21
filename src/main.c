@@ -18,14 +18,19 @@ void add_account(Account accounts[], int *account_count)
     printf("Enter bank Balance: ");
     scanf("%f", &accounts[*account_count].balance);
 
-    (*account_count++);
+    (*account_count)++;
 }
 
 void display_accounts(Account accounts[], int account_count)
 {
-    printf("Your Account Number is: %d\n", accounts[0].account_number);
-    printf("Your Account Name is: %s\n", accounts[0].name);
-    printf("Your Bank Balance is: %.2f\n", accounts[0].balance);
+    for (int i = 0; i < account_count; i++)
+    {
+        printf("Your Account Number is: %d\n", accounts[i].account_number);
+
+        printf("Your Account Name is: %s\n", accounts[i].name);
+
+        printf("Your Bank Balance is: %.2f\n", accounts[i].balance);
+    }
 }
 
 int main()
@@ -37,6 +42,7 @@ int main()
     Account accounts[100];
     int account_count = 0;
 
+    add_account(accounts, &account_count);
     add_account(accounts, &account_count);
 
     display_accounts(accounts, account_count);
