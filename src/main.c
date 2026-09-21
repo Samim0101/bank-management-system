@@ -58,6 +58,31 @@ void search_account(Account accounts[], int account_count)
     }
 }
 
+void deposit_money(Account accounts[], int account_count)
+{
+    int account_number;
+    float deposit_ammaount;
+    int found = 0;
+    printf("Enter your Account Number: ");
+    scanf("%d", &account_number);
+
+    for (int i = 0; i < account_count; i++)
+    {
+        if (account_number == accounts[i].account_number)
+        {
+            printf("Enter your Deposit ammaunt: ");
+            scanf("%f", &deposit_ammaount);
+            accounts[i].balance = accounts[i].balance + deposit_ammaount;
+            printf("Your Bank balance after deposit %.2f is: %.2f\n", deposit_ammaount, accounts[i].balance);
+            found = 1;
+        }
+    }
+    if (found == 0)
+    {
+        printf("Account not found! \n");
+    }
+}
+
 int main()
 {
     printf("====================================\n");
@@ -74,7 +99,8 @@ int main()
         printf("1. Add Account: \n");
         printf("2. Display Account: \n");
         printf("3. Search Account: \n");
-        printf("4. Exit: \n");
+        printf("4. Deposit money: \n");
+        printf("5. Exit: \n");
         scanf("%d", &choice);
         switch (choice)
         {
@@ -88,6 +114,9 @@ int main()
             search_account(accounts, account_count);
             break;
         case 4:
+            deposit_money(accounts, account_count);
+            break;
+        case 5:
             exit(0);
         default:
             break;
