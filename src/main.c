@@ -70,13 +70,46 @@ void deposit_money(Account accounts[], int account_count)
     {
         if (account_number == accounts[i].account_number)
         {
-            printf("Enter your Deposit ammaunt: ");
+            printf("Enter your Deposit Ammaunt: ");
             scanf("%f", &deposit_ammaount);
             accounts[i].balance = accounts[i].balance + deposit_ammaount;
             printf("Your Bank balance after deposit %.2f is: %.2f\n", deposit_ammaount, accounts[i].balance);
             found = 1;
         }
     }
+    if (found == 0)
+    {
+        printf("Account not found! \n");
+    }
+}
+
+void withdraw_money(Account accounts[], int account_count)
+{
+    int account_number;
+    float withdraw_ammaount;
+    int found = 0;
+    printf("Enter your Account Number: ");
+    scanf("%d", &account_number);
+    for (int i = 0; i < account_count; i++)
+    {
+        if (account_number == accounts[i].account_number)
+        {
+            printf("Enter your Withdraw Ammaount: ");
+            scanf("%f", &withdraw_ammaount);
+            if (withdraw_ammaount <= accounts[i].balance)
+            {
+                accounts[i].balance = accounts[i].balance - withdraw_ammaount;
+                printf("Your bank balance after withdraw %.2f is: %.2f\n", withdraw_ammaount, accounts[i].balance);
+            }
+            else
+            {
+                printf("Insaficeint balance for withdraw!\n");
+            }
+
+            found = 1;
+        }
+    }
+
     if (found == 0)
     {
         printf("Account not found! \n");
@@ -96,11 +129,12 @@ int main()
     while (1)
     {
 
-        printf("1. Add Account: \n");
-        printf("2. Display Account: \n");
-        printf("3. Search Account: \n");
-        printf("4. Deposit money: \n");
-        printf("5. Exit: \n");
+        printf("1. Add Account:\n");
+        printf("2. Display Account:\n");
+        printf("3. Search Account:\n");
+        printf("4. Deposit money:\n");
+        printf("5. Withdraw money:\n");
+        printf("6.. Exit:\n");
         scanf("%d", &choice);
         switch (choice)
         {
@@ -117,6 +151,9 @@ int main()
             deposit_money(accounts, account_count);
             break;
         case 5:
+            withdraw_money(accounts, account_count);
+            break;
+        case 6:
             exit(0);
         default:
             break;
