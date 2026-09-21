@@ -20,6 +20,14 @@ void add_account(Account accounts[], int *account_count)
 
     (*account_count++);
 }
+
+void display_accounts(Account accounts[], int account_count)
+{
+    printf("Your Account Number is: %d\n", accounts[0].account_number);
+    printf("Your Account Name is: %s\n", accounts[0].name);
+    printf("Your Bank Balance is: %.2f\n", accounts[0].balance);
+}
+
 int main()
 {
     printf("====================================\n");
@@ -31,9 +39,6 @@ int main()
 
     add_account(accounts, &account_count);
 
-    printf("Account Number: %d\n", accounts[0].account_number);
-    printf("Account Name: %s\n", accounts[0].name);
-    printf("Account Balance: %.2f\n", accounts[0].balance);
-
+    display_accounts(accounts, account_count);
     return 0;
 }
