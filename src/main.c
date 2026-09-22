@@ -1,11 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 typedef struct
 {
     int account_number;
     char name[50];
     float balance;
 } Account;
+
+typedef struct
+{
+    int account_number;
+    char type[50];
+    float amount;
+} Transaction;
 
 void add_account(Account accounts[], int *account_count)
 {
@@ -58,7 +66,7 @@ void search_account(Account accounts[], int account_count)
     }
 }
 
-void deposit_money(Account accounts[], int account_count)
+void deposit_money(Account accounts[], int account_count, Transaction transactions[], int *transaction_count)
 {
     int account_number;
     float deposit_ammaount;
@@ -74,6 +82,10 @@ void deposit_money(Account accounts[], int account_count)
             scanf("%f", &deposit_ammaount);
             accounts[i].balance = accounts[i].balance + deposit_ammaount;
             printf("Your Bank balance after deposit %.2f is: %.2f\n", deposit_ammaount, accounts[i].balance);
+            transactions[*transaction_count].account_number = account_number;
+            strcpy(transactions[*transaction_count].type, "Deposit");
+            transactions[*transaction_count].amount = deposit_ammaount;
+            (*transaction_count)++;
             found = 1;
         }
     }
@@ -83,7 +95,7 @@ void deposit_money(Account accounts[], int account_count)
     }
 }
 
-void withdraw_money(Account accounts[], int account_count)
+void withdraw_money(Account accounts[], int account_count, Transaction transactions[], int *transaction_count)
 {
     int account_number;
     float withdraw_ammaount;
@@ -100,6 +112,10 @@ void withdraw_money(Account accounts[], int account_count)
             {
                 accounts[i].balance = accounts[i].balance - withdraw_ammaount;
                 printf("Your bank balance after withdraw %.2f is: %.2f\n", withdraw_ammaount, accounts[i].balance);
+                transactions[*transaction_count].account_number = account_number;
+                strcpy(transactions[*transaction_count].type, "Withdraw");
+                transactions[*transaction_count].amount = withdraw_ammaount;
+                (*transaction_count)++;
             }
             else
             {
@@ -116,6 +132,22 @@ void withdraw_money(Account accounts[], int account_count)
     }
 }
 
+void display_transaction_history(Transaction transactions[], int transaction_count)
+{
+
+    if (transaction_count == 0)
+    {
+        printf("No transactions found! \n");
+        return;
+    }
+    for (int i = 0; i < transaction_count; i++)
+    {
+        printf("Your Account Number is: %d\n", transactions[i].account_number);
+        printf("Your Transaction Type: %s\n", transactions[i].type);
+        printf("Your Ammaount: %.2f\n", transactions[i].amount);
+    }
+}
+
 int main()
 {
     printf("====================================\n");
@@ -125,6 +157,8 @@ int main()
     Account accounts[100];
     int account_count = 0;
     int choice;
+    Transaction transactions[500];
+    int transaction_count = 0;
 
     while (1)
     {
@@ -134,7 +168,8 @@ int main()
         printf("3. Search Account:\n");
         printf("4. Deposit money:\n");
         printf("5. Withdraw money:\n");
-        printf("6.. Exit:\n");
+        printf("6. Transaction History: \n");
+        printf("7. Exit:\n");
         scanf("%d", &choice);
         switch (choice)
         {
@@ -148,12 +183,15 @@ int main()
             search_account(accounts, account_count);
             break;
         case 4:
-            deposit_money(accounts, account_count);
+            deposit_money(accounts, account_count, transactions, &transaction_count);
             break;
         case 5:
-            withdraw_money(accounts, account_count);
+            withdraw_money(accounts, account_count, transactions, &transaction_count);
             break;
         case 6:
+            display_transaction_history(transactions, transaction_count);
+            break;
+        case 7:
             exit(0);
         default:
             break;
