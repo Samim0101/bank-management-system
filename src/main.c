@@ -95,7 +95,7 @@ void deposit_money(Account accounts[], int account_count, Transaction transactio
     }
 }
 
-void withdraw_money(Account accounts[], int account_count)
+void withdraw_money(Account accounts[], int account_count, Transaction transactions[], int *transaction_count)
 {
     int account_number;
     float withdraw_ammaount;
@@ -112,6 +112,10 @@ void withdraw_money(Account accounts[], int account_count)
             {
                 accounts[i].balance = accounts[i].balance - withdraw_ammaount;
                 printf("Your bank balance after withdraw %.2f is: %.2f\n", withdraw_ammaount, accounts[i].balance);
+                transactions[*transaction_count].account_number = account_number;
+                strcpy(transactions[*transaction_count].type, "Withdraw");
+                transactions[*transaction_count].amount = withdraw_ammaount;
+                (*transaction_count)++;
             }
             else
             {
@@ -182,7 +186,7 @@ int main()
             deposit_money(accounts, account_count, transactions, &transaction_count);
             break;
         case 5:
-            withdraw_money(accounts, account_count);
+            withdraw_money(accounts, account_count, transactions, &transaction_count);
             break;
         case 6:
             display_transaction_history(transactions, transaction_count);
