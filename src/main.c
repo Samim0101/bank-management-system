@@ -93,6 +93,12 @@ void deposit_money(Account accounts[], int account_count, Transaction transactio
     {
         if (account_number == accounts[i].account_number)
         {
+            if (*transaction_count >= 500)
+            {
+                printf("Transaction history is full! \n");
+                return;
+            }
+
             printf("Enter your Deposit Ammaunt: ");
             scanf("%f", &deposit_ammaount);
             accounts[i].balance = accounts[i].balance + deposit_ammaount;
