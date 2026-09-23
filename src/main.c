@@ -42,6 +42,12 @@ void add_account(Account accounts[], int *account_count)
     printf("Enter bank Balance: ");
     scanf("%f", &accounts[*account_count].balance);
 
+    if (accounts[*account_count].balance <= 0)
+    {
+        printf("Invalid Balance!\n");
+        return;
+    }
+
     (*account_count)++;
 }
 
@@ -95,12 +101,18 @@ void deposit_money(Account accounts[], int account_count, Transaction transactio
         {
             if (*transaction_count >= 500)
             {
-                printf("Transaction history is full! \n");
+                printf("Transaction history is full!! \n");
                 return;
             }
 
             printf("Enter your Deposit Ammaunt: ");
             scanf("%f", &deposit_ammaount);
+            if (deposit_ammaount <= 0)
+            {
+                printf("Invalid Deposit\n");
+                return;
+            }
+
             accounts[i].balance = accounts[i].balance + deposit_ammaount;
             printf("Your Bank balance after deposit %.2f is: %.2f\n", deposit_ammaount, accounts[i].balance);
             transactions[*transaction_count].account_number = account_number;
@@ -123,6 +135,7 @@ void withdraw_money(Account accounts[], int account_count, Transaction transacti
     int found = 0;
     printf("Enter your Account Number: ");
     scanf("%d", &account_number);
+
     for (int i = 0; i < account_count; i++)
     {
         if (account_number == accounts[i].account_number)
@@ -135,6 +148,12 @@ void withdraw_money(Account accounts[], int account_count, Transaction transacti
 
             printf("Enter your Withdraw Ammaount: ");
             scanf("%f", &withdraw_ammaount);
+            if (withdraw_ammaount <= 0)
+            {
+                printf("Invalid Withdraw!\n");
+                return;
+            }
+
             if (withdraw_ammaount <= accounts[i].balance)
             {
                 accounts[i].balance = accounts[i].balance - withdraw_ammaount;
