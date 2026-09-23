@@ -127,6 +127,12 @@ void withdraw_money(Account accounts[], int account_count, Transaction transacti
     {
         if (account_number == accounts[i].account_number)
         {
+            if (*transaction_count >= 500)
+            {
+                printf("Transaction history is full! \n");
+                return;
+            }
+
             printf("Enter your Withdraw Ammaount: ");
             scanf("%f", &withdraw_ammaount);
             if (withdraw_ammaount <= accounts[i].balance)
