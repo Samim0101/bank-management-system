@@ -18,6 +18,12 @@ typedef struct
 void add_account(Account accounts[], int *account_count)
 {
     int new_acount_number;
+    if (*account_count >= 100)
+    {
+        printf("We dont have space to create new account! \n");
+        return;
+    }
+
     printf("Enter your account number: ");
     scanf("%d", &new_acount_number);
 
