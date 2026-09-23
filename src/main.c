@@ -95,7 +95,7 @@ void deposit_money(Account accounts[], int account_count, Transaction transactio
         {
             if (*transaction_count >= 500)
             {
-                printf("Invalid Deposit! \n");
+                printf("Transaction history is full!! \n");
                 return;
             }
 
@@ -103,7 +103,7 @@ void deposit_money(Account accounts[], int account_count, Transaction transactio
             scanf("%f", &deposit_ammaount);
             if (deposit_ammaount <= 0)
             {
-                printf("You have to deposite more than zero!\n");
+                printf("Invalid Deposit\n");
                 return;
             }
 
@@ -142,6 +142,12 @@ void withdraw_money(Account accounts[], int account_count, Transaction transacti
 
             printf("Enter your Withdraw Ammaount: ");
             scanf("%f", &withdraw_ammaount);
+            if (withdraw_ammaount <= 0)
+            {
+                printf("Invalid Withdraw!\n");
+                return;
+            }
+
             if (withdraw_ammaount <= accounts[i].balance)
             {
                 accounts[i].balance = accounts[i].balance - withdraw_ammaount;
