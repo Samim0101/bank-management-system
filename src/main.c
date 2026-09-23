@@ -17,10 +17,19 @@ typedef struct
 
 void add_account(Account accounts[], int *account_count)
 {
+    int new_acount_number;
     printf("Enter your account number: ");
+    scanf("%d", &new_acount_number);
 
-    scanf("%d", &accounts[*account_count].account_number);
-
+    for (int i = 0; i < *account_count; i++)
+    {
+        if (new_acount_number == accounts[i].account_number)
+        {
+            printf("Account already exists!\n");
+            return;
+        }
+    }
+    accounts[*account_count].account_number = new_acount_number;
     printf("Enter your name: ");
     scanf("%s", accounts[*account_count].name);
 
