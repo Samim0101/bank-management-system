@@ -42,6 +42,12 @@ void add_account(Account accounts[], int *account_count)
     printf("Enter bank Balance: ");
     scanf("%f", &accounts[*account_count].balance);
 
+    if (accounts[*account_count].balance <= 0)
+    {
+        printf("Invalid Balance!\n");
+        return;
+    }
+
     (*account_count)++;
 }
 
