@@ -263,7 +263,8 @@ void display_transaction_history(Transaction transactions[], int transaction_cou
     }
 }
 
-void save_accounts(Account accounts[], int account_count){
+void save_accounts(Account accounts[], int account_count)
+{
     FILE *file;
     file = fopen("../data/accounts.dat", "wb");
     if (file == NULL)
@@ -271,7 +272,21 @@ void save_accounts(Account accounts[], int account_count){
         printf("Error opening accounts file!\n");
         return;
     }
-    fwrite(accounts, sizeof(Account), account_count,file);
+    fwrite(accounts, sizeof(Account), account_count, file);
+    fclose(file);
+}
+
+void load_accounts(Account accounts[], int *account_count)
+{
+    FILE *file;
+    file = fopen("../data/accounts.dat", "rb");
+
+    if (file == NULL)
+    {
+        *account_count = 0;
+        return;
+    }
+    *account_count = fread(accounts, sizeof(Account), 100, file);
     fclose(file);
 }
 
@@ -282,6 +297,7 @@ int main()
     printf("====================================\n");
     Account accounts[100];
     int account_count = 0;
+    load_accounts(accounts, &account_count);
     int choice;
     int result;
     Transaction transactions[500];
