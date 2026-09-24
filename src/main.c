@@ -179,9 +179,22 @@ void withdraw_money(Account accounts[], int account_count, Transaction transacti
 {
     int account_number;
     float withdraw_ammaount;
+    int result;
     int found = 0;
     printf("Enter your Account Number: ");
-    scanf("%d", &account_number);
+    result = scanf("%d", &account_number);
+    if (result != 1)
+    {
+        printf("Invalid input!\n");
+        while (getchar() != '\n')
+            ;
+        return;
+    }
+    if (account_number <= 0)
+    {
+        printf("Invalid account number!\n");
+        return;
+    }
 
     for (int i = 0; i < account_count; i++)
     {
@@ -194,7 +207,15 @@ void withdraw_money(Account accounts[], int account_count, Transaction transacti
             }
 
             printf("Enter your Withdraw Ammaount: ");
-            scanf("%f", &withdraw_ammaount);
+            result = scanf("%f", &withdraw_ammaount);
+
+            if (result != 1)
+            {
+                printf("Invalid input!\n");
+                while(getchar() != '\n');
+                return;
+            }
+            
             if (withdraw_ammaount <= 0)
             {
                 printf("Invalid Withdraw!\n");
