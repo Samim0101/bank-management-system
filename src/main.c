@@ -34,6 +34,11 @@ void add_account(Account accounts[], int *account_count)
             ;
         return;
     }
+    if (new_acount_number <= 0)
+    {
+        printf("Account number must be greater than 0. \n");
+        return;
+    }
 
     for (int i = 0; i < *account_count; i++)
     {
@@ -76,9 +81,22 @@ void display_accounts(Account accounts[], int account_count)
 void search_account(Account accounts[], int account_count)
 {
     int search_account;
+    int result;
     int found = 0;
     printf("Enter Account Number that you want to find: ");
-    scanf("%d", &search_account);
+    result = scanf("%d", &search_account);
+    if (result != 1)
+    {
+        printf("Invalid input!\n");
+        while (getchar() != '\n')
+            ;
+        return;
+    }
+    if (search_account <= 0)
+    {
+        printf("Invalid account number!\n");
+        return;
+    }
 
     for (int i = 0; i < account_count; i++)
     {
