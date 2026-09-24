@@ -18,6 +18,7 @@ typedef struct
 void add_account(Account accounts[], int *account_count)
 {
     int new_acount_number;
+    int result;
     if (*account_count >= 100)
     {
         printf("We dont have space to create new account! \n");
@@ -25,7 +26,19 @@ void add_account(Account accounts[], int *account_count)
     }
 
     printf("Enter your account number: ");
-    scanf("%d", &new_acount_number);
+    result = scanf("%d", &new_acount_number);
+    if (result != 1)
+    {
+        printf("Invalid input!\n");
+        while (getchar() != '\n')
+            ;
+        return;
+    }
+    if (new_acount_number <= 0)
+    {
+        printf("Account number must be greater than 0. \n");
+        return;
+    }
 
     for (int i = 0; i < *account_count; i++)
     {
@@ -37,8 +50,10 @@ void add_account(Account accounts[], int *account_count)
     }
     accounts[*account_count].account_number = new_acount_number;
     printf("Enter your name: ");
-    scanf("%49s", accounts[*account_count].name);
-
+    while ((getchar()) != '\n')
+        ;
+    fgets(accounts[*account_count].name, 50, stdin);
+    accounts[*account_count].name[strcspn(accounts[*account_count].name, "\n")] = '\0';
     printf("Enter bank Balance: ");
     scanf("%f", &accounts[*account_count].balance);
 
@@ -66,9 +81,22 @@ void display_accounts(Account accounts[], int account_count)
 void search_account(Account accounts[], int account_count)
 {
     int search_account;
+    int result;
     int found = 0;
     printf("Enter Account Number that you want to find: ");
-    scanf("%d", &search_account);
+    result = scanf("%d", &search_account);
+    if (result != 1)
+    {
+        printf("Invalid input!\n");
+        while (getchar() != '\n')
+            ;
+        return;
+    }
+    if (search_account <= 0)
+    {
+        printf("Invalid account number!\n");
+        return;
+    }
 
     for (int i = 0; i < account_count; i++)
     {
@@ -203,6 +231,7 @@ int main()
     Account accounts[100];
     int account_count = 0;
     int choice;
+    int result;
     Transaction transactions[500];
     int transaction_count = 0;
 
@@ -216,7 +245,20 @@ int main()
         printf("5. Withdraw money:\n");
         printf("6. Transaction History: \n");
         printf("7. Exit:\n");
-        scanf("%d", &choice);
+        result = scanf("%d", &choice);
+        if (result != 1)
+        {
+            printf("Invalid input! Please enter a number.\n");
+            while (getchar() != '\n')
+                ;
+            continue;
+        }
+        if (choice < 1 || choice > 7)
+        {
+            printf("Invalid input! Please enter 1-7.\n");
+            continue;
+        }
+
         switch (choice)
         {
         case 1:
