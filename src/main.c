@@ -212,10 +212,11 @@ void withdraw_money(Account accounts[], int account_count, Transaction transacti
             if (result != 1)
             {
                 printf("Invalid input!\n");
-                while(getchar() != '\n');
+                while (getchar() != '\n')
+                    ;
                 return;
             }
-            
+
             if (withdraw_ammaount <= 0)
             {
                 printf("Invalid Withdraw!\n");
@@ -262,19 +263,29 @@ void display_transaction_history(Transaction transactions[], int transaction_cou
     }
 }
 
+void save_accounts(Account accounts[], int account_count){
+    FILE *file;
+    file = fopen("../data/accounts.dat", "wb");
+    if (file == NULL)
+    {
+        printf("Error opening accounts file!\n");
+        return;
+    }
+    fwrite(accounts, sizeof(Account), account_count,file);
+    fclose(file);
+}
+
 int main()
 {
     printf("====================================\n");
     printf("       BANK MANAGEMENT SYSTEM       \n");
     printf("====================================\n");
-
     Account accounts[100];
     int account_count = 0;
     int choice;
     int result;
     Transaction transactions[500];
     int transaction_count = 0;
-
     while (1)
     {
 
@@ -303,6 +314,7 @@ int main()
         {
         case 1:
             add_account(accounts, &account_count);
+            save_accounts(accounts, account_count);
             break;
         case 2:
             display_accounts(accounts, account_count);
