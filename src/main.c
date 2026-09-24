@@ -205,6 +205,7 @@ int main()
     Account accounts[100];
     int account_count = 0;
     int choice;
+    int result;
     Transaction transactions[500];
     int transaction_count = 0;
 
@@ -218,7 +219,20 @@ int main()
         printf("5. Withdraw money:\n");
         printf("6. Transaction History: \n");
         printf("7. Exit:\n");
-        scanf("%d", &choice);
+        result = scanf("%d", &choice);
+        if (result != 1)
+        {
+            printf("Invalid input! Please enter a number.\n");
+            while (getchar() != '\n')
+                ;
+            continue;
+        }
+        if (choice < 1 || choice > 7)
+        {
+            printf("Invalid input! Please enter 1-7.\n");
+            continue;
+        }
+
         switch (choice)
         {
         case 1:
