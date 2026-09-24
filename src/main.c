@@ -18,6 +18,7 @@ typedef struct
 void add_account(Account accounts[], int *account_count)
 {
     int new_acount_number;
+    int result;
     if (*account_count >= 100)
     {
         printf("We dont have space to create new account! \n");
@@ -25,7 +26,14 @@ void add_account(Account accounts[], int *account_count)
     }
 
     printf("Enter your account number: ");
-    scanf("%d", &new_acount_number);
+    result = scanf("%d", &new_acount_number);
+    if (result != 1)
+    {
+        printf("Invalid input!\n");
+        while (getchar() != '\n')
+            ;
+        return;
+    }
 
     for (int i = 0; i < *account_count; i++)
     {
