@@ -147,13 +147,19 @@ void deposit_money(Account accounts[], int account_count, Transaction transactio
             }
 
             printf("Enter your Deposit Ammaunt: ");
-            scanf("%f", &deposit_ammaount);
+            result = scanf("%f", &deposit_ammaount);
+            if (result != 1)
+            {
+                printf("Invalid input!\n");
+                while (getchar() != '\n')
+                    ;
+                return;
+            }
             if (deposit_ammaount <= 0)
             {
                 printf("Invalid Deposit\n");
                 return;
             }
-
             accounts[i].balance = accounts[i].balance + deposit_ammaount;
             printf("Your Bank balance after deposit %.2f is: %.2f\n", deposit_ammaount, accounts[i].balance);
             transactions[*transaction_count].account_number = account_number;
