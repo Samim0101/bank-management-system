@@ -37,8 +37,10 @@ void add_account(Account accounts[], int *account_count)
     }
     accounts[*account_count].account_number = new_acount_number;
     printf("Enter your name: ");
-    scanf("%49s", accounts[*account_count].name);
-
+    while ((getchar()) != '\n')
+        ;
+    fgets(accounts[*account_count].name, 50, stdin);
+    accounts[*account_count].name[strcspn(accounts[*account_count].name, "\n")] = '\0';
     printf("Enter bank Balance: ");
     scanf("%f", &accounts[*account_count].balance);
 
