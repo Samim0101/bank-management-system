@@ -340,9 +340,11 @@ int main()
             break;
         case 4:
             deposit_money(accounts, account_count, transactions, &transaction_count);
+            save_accounts(accounts, account_count);
             break;
         case 5:
             withdraw_money(accounts, account_count, transactions, &transaction_count);
+            save_accounts(accounts, account_count);
             break;
         case 6:
             display_transaction_history(transactions, transaction_count);
