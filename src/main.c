@@ -119,9 +119,22 @@ void deposit_money(Account accounts[], int account_count, Transaction transactio
 {
     int account_number;
     float deposit_ammaount;
+    int result;
     int found = 0;
     printf("Enter your Account Number: ");
-    scanf("%d", &account_number);
+    result = scanf("%d", &account_number);
+    if (result != 1)
+    {
+        printf("invalid input!\n");
+        while (getchar() != '\n')
+            ;
+        return;
+    }
+    if (account_number <= 0)
+    {
+        printf("Invalid account number!\n");
+        return;
+    }
 
     for (int i = 0; i < account_count; i++)
     {
