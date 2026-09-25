@@ -305,6 +305,18 @@ void save_transactions(Transaction transactions[], int transaction_count)
     fclose(file);
 }
 
+void load_transactions(Transaction transactions[], int *transaction_count){
+    FILE *file;
+    file = fopen("../data/transactions.dat","rb");
+    if (file == NULL)
+    {
+        *transaction_count = 0;
+        return;
+    }
+    *transaction_count = fread(transactions,sizeof(Transaction), 500, file);
+    fclose(file);
+}
+
 int main()
 {
     printf("====================================\n");
@@ -317,6 +329,7 @@ int main()
     int result;
     Transaction transactions[500];
     int transaction_count = 0;
+    load_transactions(transactions, &transaction_count);
     while (1)
     {
 
@@ -364,7 +377,7 @@ int main()
             save_transactions(transactions, transaction_count);
             break;
         case 6:
-            display_transaction_history(transactions, transaction_count);
+            display_transaction_history(transactions, transaction_count);            
             break;
         case 7:
             exit(0);
