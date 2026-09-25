@@ -290,6 +290,21 @@ void load_accounts(Account accounts[], int *account_count)
     fclose(file);
 }
 
+void save_transactions(Transaction transactions[], int transaction_count)
+{
+    FILE *file;
+    file = fopen("../data/transactions.dat", "wb");
+    if (file == NULL)
+    {
+        printf("Error opening transaction file!\n");
+
+        return;
+    }
+
+    fwrite(transactions, sizeof(Transaction), transaction_count, file);
+    fclose(file);
+}
+
 int main()
 {
     printf("====================================\n");
@@ -341,10 +356,12 @@ int main()
         case 4:
             deposit_money(accounts, account_count, transactions, &transaction_count);
             save_accounts(accounts, account_count);
+            save_transactions(transactions, transaction_count);
             break;
         case 5:
             withdraw_money(accounts, account_count, transactions, &transaction_count);
             save_accounts(accounts, account_count);
+            save_transactions(transactions, transaction_count);
             break;
         case 6:
             display_transaction_history(transactions, transaction_count);
