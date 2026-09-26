@@ -321,8 +321,23 @@ void load_transactions(Transaction transactions[], int *transaction_count)
 void update_account(Account accounts[], int account_count)
 {
     int account_number;
+    int result;
+    int found = 0;
     printf("Enter your account number: ");
-    scanf("%d", &account_number);
+    result = scanf("%d", &account_number);
+
+    if (result != 1)
+    {
+        printf("Invalid input!\n");
+        while (getchar() != '\n')
+            ;
+        return;
+    }
+    if (account_number <= 0)
+    {
+        printf("Invalid account number!\n");
+        return;
+    }
 
     for (int i = 0; i < account_count; i++)
     {
@@ -333,7 +348,12 @@ void update_account(Account accounts[], int account_count)
                 ;
             fgets(accounts[i].name, 50, stdin);
             accounts[i].name[strcspn(accounts[i].name, "\n")] = '\0';
+            found = 1;
         }
+    }
+    if (found == 0)
+    {
+        printf("Account not found!\n");
     }
 }
 
