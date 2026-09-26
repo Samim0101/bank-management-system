@@ -402,6 +402,7 @@ int main()
             break;
         case 7:
             update_account(accounts, account_count);
+            save_accounts(accounts, account_count);
             break;
         case 8:
             exit(0);
