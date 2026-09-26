@@ -305,16 +305,36 @@ void save_transactions(Transaction transactions[], int transaction_count)
     fclose(file);
 }
 
-void load_transactions(Transaction transactions[], int *transaction_count){
+void load_transactions(Transaction transactions[], int *transaction_count)
+{
     FILE *file;
-    file = fopen("../data/transactions.dat","rb");
+    file = fopen("../data/transactions.dat", "rb");
     if (file == NULL)
     {
         *transaction_count = 0;
         return;
     }
-    *transaction_count = fread(transactions,sizeof(Transaction), 500, file);
+    *transaction_count = fread(transactions, sizeof(Transaction), 500, file);
     fclose(file);
+}
+
+void update_account(Account accounts[], int account_count)
+{
+    int account_number;
+    printf("Enter your account number: ");
+    scanf("%d", &account_number);
+
+    for (int i = 0; i < account_count; i++)
+    {
+        if (account_number == accounts[i].account_number)
+        {
+            printf("Enter your new name: ");
+            while (getchar() != '\n')
+                ;
+            fgets(accounts[i].name, 50, stdin);
+            accounts[i].name[strcspn(accounts[i].name, "\n")] = '\0';
+        }
+    }
 }
 
 int main()
@@ -338,8 +358,9 @@ int main()
         printf("3. Search Account:\n");
         printf("4. Deposit money:\n");
         printf("5. Withdraw money:\n");
-        printf("6. Transaction History: \n");
-        printf("7. Exit:\n");
+        printf("6. Transaction History:\n");
+        printf("7. Update Account:\n");
+        printf("8. Exit:\n");
         result = scanf("%d", &choice);
         if (result != 1)
         {
@@ -348,9 +369,9 @@ int main()
                 ;
             continue;
         }
-        if (choice < 1 || choice > 7)
+        if (choice < 1 || choice > 8)
         {
-            printf("Invalid input! Please enter 1-7.\n");
+            printf("Invalid input! Please enter 1-8.\n");
             continue;
         }
 
@@ -377,9 +398,12 @@ int main()
             save_transactions(transactions, transaction_count);
             break;
         case 6:
-            display_transaction_history(transactions, transaction_count);            
+            display_transaction_history(transactions, transaction_count);
             break;
         case 7:
+            update_account(accounts, account_count);
+            break;
+        case 8:
             exit(0);
         default:
             break;
