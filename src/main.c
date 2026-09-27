@@ -322,6 +322,7 @@ void update_account(Account accounts[], int account_count)
 {
     int account_number;
     int new_account_number;
+    char new_name[50];
     int result;
     int found = 0;
     printf("Enter your account number: ");
@@ -347,8 +348,8 @@ void update_account(Account accounts[], int account_count)
             printf("Enter your new name: ");
             while (getchar() != '\n')
                 ;
-            fgets(accounts[i].name, 50, stdin);
-            accounts[i].name[strcspn(accounts[i].name, "\n")] = '\0';
+            fgets(new_name, 50, stdin);
+            new_name[strcspn(new_name, "\n")] = '\0';
 
             printf("Enter your new account number: ");
             result = scanf("%d", &new_account_number);
@@ -375,6 +376,7 @@ void update_account(Account accounts[], int account_count)
                 }
             }
 
+            strcpy(accounts[i].name, new_name);
             accounts[i].account_number = new_account_number;
             found = 1;
         }
