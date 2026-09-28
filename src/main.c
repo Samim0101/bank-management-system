@@ -397,6 +397,73 @@ int update_account(Account accounts[], int account_count, Transaction transactio
     return 1;
 }
 
+void delete_account(Account accounts[], int *account_count,
+                    Transaction transactions[], int *transaction_count)
+{
+    int account_number;
+    int result;
+    int found = 0;
+
+    printf("Enter account number to delete: ");
+    result = scanf("%d", &account_number);
+
+    if (result != 1)
+    {
+        printf("Invalid input!\n");
+
+        while (getchar() != '\n')
+            ;
+
+        return;
+    }
+
+    if (account_number <= 0)
+    {
+        printf("Invalid account number!\n");
+        return;
+    }
+
+    for (int i = 0; i < *account_count; i++)
+    {
+        if (accounts[i].account_number == account_number)
+        {
+            found = 1;
+
+            printf("Account found!\n");
+            printf("Account Number: %d\n", accounts[i].account_number);
+            printf("Account Name: %s\n", accounts[i].name);
+            printf("Account Balance: %.2f\n", accounts[i].balance);
+            for (int j = i; j < *account_count - 1; j++)
+            {
+                accounts[j] = accounts[j + 1];
+            }
+
+            (*account_count)--;
+
+            for (int k = 0; k < *transaction_count; k++)
+            {
+                if (transactions[k].account_number == account_number)
+                {
+                    for (int j = k; j < *transaction_count - 1; j++)
+                    {
+                        transactions[j] = transactions[j + 1];
+                    }
+
+                    (*transaction_count)--;
+                    k--;
+                }
+            }
+
+            printf("Account deleted successfully!\n");
+            break;
+        }
+    }
+    if (found == 0)
+    {
+        printf("Account not found!\n");
+        return;
+    }
+}
 int main()
 {
     printf("====================================\n");
@@ -420,7 +487,8 @@ int main()
         printf("5. Withdraw money:\n");
         printf("6. Transaction History:\n");
         printf("7. Update Account:\n");
-        printf("8. Exit:\n");
+        printf("8. Delete Account:\n");
+        printf("9. Exit:\n");
         result = scanf("%d", &choice);
         if (result != 1)
         {
@@ -429,9 +497,9 @@ int main()
                 ;
             continue;
         }
-        if (choice < 1 || choice > 8)
+        if (choice < 1 || choice > 9)
         {
-            printf("Invalid input! Please enter 1-8.\n");
+            printf("Invalid input! Please enter 1-9.\n");
             continue;
         }
 
@@ -472,6 +540,12 @@ int main()
             break;
         }
         case 8:
+            delete_account(accounts, &account_count, transactions, &transaction_count);
+            save_accounts(accounts, account_count);
+            save_transactions(transactions, transaction_count);
+            break;
+            ;
+        case 9:
             exit(0);
         default:
             break;
