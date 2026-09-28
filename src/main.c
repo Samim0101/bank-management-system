@@ -318,7 +318,7 @@ void load_transactions(Transaction transactions[], int *transaction_count)
     fclose(file);
 }
 
-void update_account(Account accounts[], int account_count)
+void update_account(Account accounts[], int account_count, Transaction transactions[], int transaction_count)
 {
     int account_number;
     int new_account_number;
@@ -375,6 +375,16 @@ void update_account(Account accounts[], int account_count)
                     return;
                 }
             }
+
+            for (int k = 0; k < transaction_count; k++)
+            {
+                if (transactions[k].account_number == account_number)
+                {
+                   transactions[k].account_number = new_account_number; 
+                }
+                
+            }
+            
 
             strcpy(accounts[i].name, new_name);
             accounts[i].account_number = new_account_number;
@@ -451,8 +461,9 @@ int main()
             display_transaction_history(transactions, transaction_count);
             break;
         case 7:
-            update_account(accounts, account_count);
+            update_account(accounts, account_count, transactions, transaction_count);
             save_accounts(accounts, account_count);
+            save_transactions(transactions, transaction_count);
             break;
         case 8:
             exit(0);
