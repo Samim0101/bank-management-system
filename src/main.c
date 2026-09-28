@@ -318,7 +318,7 @@ void load_transactions(Transaction transactions[], int *transaction_count)
     fclose(file);
 }
 
-void update_account(Account accounts[], int account_count, Transaction transactions[], int transaction_count)
+int update_account(Account accounts[], int account_count, Transaction transactions[], int transaction_count)
 {
     int account_number;
     int new_account_number;
@@ -333,12 +333,12 @@ void update_account(Account accounts[], int account_count, Transaction transacti
         printf("Invalid input!\n");
         while (getchar() != '\n')
             ;
-        return;
+        return 0;
     }
     if (account_number <= 0)
     {
         printf("Invalid account number!\n");
-        return;
+        return 0;
     }
 
     for (int i = 0; i < account_count; i++)
@@ -359,12 +359,12 @@ void update_account(Account accounts[], int account_count, Transaction transacti
                 printf("Invalid input!\n");
                 while (getchar() != '\n')
                     ;
-                return;
+                return 0;
             }
             if (new_account_number <= 0)
             {
                 printf("Invalid account number!\n");
-                return;
+                return 0;
             }
 
             for (int j = 0; j < account_count; j++)
@@ -372,7 +372,7 @@ void update_account(Account accounts[], int account_count, Transaction transacti
                 if (j != i && new_account_number == accounts[j].account_number)
                 {
                     printf("Account number already exists\n");
-                    return;
+                    return 0;
                 }
             }
 
@@ -380,11 +380,9 @@ void update_account(Account accounts[], int account_count, Transaction transacti
             {
                 if (transactions[k].account_number == account_number)
                 {
-                   transactions[k].account_number = new_account_number; 
+                    transactions[k].account_number = new_account_number;
                 }
-                
             }
-            
 
             strcpy(accounts[i].name, new_name);
             accounts[i].account_number = new_account_number;
@@ -394,7 +392,9 @@ void update_account(Account accounts[], int account_count, Transaction transacti
     if (found == 0)
     {
         printf("Account not found!\n");
+        return 0;
     }
+    return 1;
 }
 
 int main()
@@ -461,10 +461,16 @@ int main()
             display_transaction_history(transactions, transaction_count);
             break;
         case 7:
-            update_account(accounts, account_count, transactions, transaction_count);
-            save_accounts(accounts, account_count);
-            save_transactions(transactions, transaction_count);
+        {
+            int updated = update_account(accounts, account_count, transactions, transaction_count);
+
+            if (updated == 1)
+            {
+                save_accounts(accounts, account_count);
+                save_transactions(transactions, transaction_count);
+            }
             break;
+        }
         case 8:
             exit(0);
         default:
