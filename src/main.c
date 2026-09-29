@@ -250,16 +250,46 @@ void withdraw_money(Account accounts[], int account_count, Transaction transacti
 void display_transaction_history(Transaction transactions[], int transaction_count)
 {
 
+    int account_number;
+    int result;
+    int found = 0;
+
     if (transaction_count == 0)
     {
         printf("No transactions found! \n");
         return;
     }
+
+    printf("Enter Account Number: ");
+    result = scanf("%d", &account_number);
+
+    if (result != 1)
+    {
+        printf("Invalid input!\n");
+        while (getchar() != '\n')
+            ;
+        return;
+    }
+    if (account_number <= 0)
+    {
+        printf("Invalid account number!\n");
+        return;
+    }
+
     for (int i = 0; i < transaction_count; i++)
     {
-        printf("Your Account Number is: %d\n", transactions[i].account_number);
-        printf("Your Transaction Type: %s\n", transactions[i].type);
-        printf("Your Ammaount: %.2f\n", transactions[i].amount);
+        if (transactions[i].account_number == account_number)
+        {
+            printf("Your Account Number is: %d\n", transactions[i].account_number);
+            printf("Your Transaction Type: %s\n", transactions[i].type);
+            printf("Your Ammaount: %.2f\n", transactions[i].amount);
+
+            found = 1;
+        }
+    }
+    if (found == 0)
+    {
+        printf("No transactions found for this account!\n");
     }
 }
 
