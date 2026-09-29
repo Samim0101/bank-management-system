@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 typedef struct
 {
     int account_number;
@@ -13,6 +14,7 @@ typedef struct
     int account_number;
     char type[50];
     float amount;
+    char date_time[30];
 } Transaction;
 
 void add_account(Account accounts[], int *account_count)
@@ -283,7 +285,7 @@ void display_transaction_history(Transaction transactions[], int transaction_cou
             printf("Your Account Number is: %d\n", transactions[i].account_number);
             printf("Your Transaction Type: %s\n", transactions[i].type);
             printf("Your Ammaount: %.2f\n", transactions[i].amount);
-
+            printf("Date & Time: %s\n", transactions[i].date_time);
             found = 1;
         }
     }
@@ -505,6 +507,8 @@ void transfer_money(Account accounts[], int account_count, Transaction transacti
     int receiver_index = -1;
     int result;
     float amount;
+    time_t now;
+    struct tm *local_time;
 
     printf("Enter sender account number: ");
     sender = scanf("%d", &sender_account_number);
@@ -591,19 +595,28 @@ void transfer_money(Account accounts[], int account_count, Transaction transacti
         printf("transaction history is full!\n");
         return;
     }
-
+    now = time(NULL);
+    local_time = localtime(&now);
     accounts[sender_index].balance -= amount;
     accounts[receiver_index].balance += amount;
 
     transactions[*transaction_count].account_number = sender_account_number;
-    strcpy(transactions[*transaction_count].type, "Transfer Out");
-    transactions[*transaction_count].amount = amount;
-    (*transaction_count)++;
+strcpy(transactions[*transaction_count].type, "Transfer Out");
+transactions[*transaction_count].amount = amount;
 
-    transactions[*transaction_count].account_number = receiver_account_number;
-    strcpy(transactions[*transaction_count].type, "Transfer In");
-    transactions[*transaction_count].amount = amount;
-    (*transaction_count)++;
+strftime(transactions[*transaction_count].date_time, 30,
+         "%d-%m-%Y %H:%M:%S", local_time);
+
+(*transaction_count)++;
+
+transactions[*transaction_count].account_number = receiver_account_number;
+strcpy(transactions[*transaction_count].type, "Transfer In");
+transactions[*transaction_count].amount = amount;
+
+strftime(transactions[*transaction_count].date_time, 30,
+         "%d-%m-%Y %H:%M:%S", local_time);
+
+(*transaction_count)++;
 
     printf("Money transferred successfully!\n");
 }
