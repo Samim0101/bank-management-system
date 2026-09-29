@@ -494,6 +494,120 @@ void delete_account(Account accounts[], int *account_count,
         return;
     }
 }
+
+void transfer_money(Account accounts[], int account_count, Transaction transactions[], int *transaction_count)
+{
+    int sender_account_number;
+    int receiver_account_number;
+    int sender;
+    int receiver;
+    int sender_index = -1;
+    int receiver_index = -1;
+    int result;
+    float amount;
+
+    printf("Enter sender account number: ");
+    sender = scanf("%d", &sender_account_number);
+
+    if (sender != 1)
+    {
+        printf("Invalid input!\n");
+        while (getchar() != '\n')
+            ;
+        return;
+    }
+    if (sender_account_number <= 0)
+    {
+        printf("Invalid account number!\n");
+        return;
+    }
+
+    printf("Enter your receiver account number: ");
+    receiver = scanf("%d", &receiver_account_number);
+
+    if (receiver != 1)
+    {
+        printf("Invalid input!\n");
+        while (getchar() != '\n')
+            ;
+        return;
+    }
+    if (receiver_account_number <= 0)
+    {
+        printf("Invalid account number!\n");
+        return;
+    }
+
+    for (int i = 0; i < account_count; i++)
+    {
+        if (accounts[i].account_number == sender_account_number)
+        {
+            sender_index = i;
+        }
+
+        if (accounts[i].account_number == receiver_account_number)
+        {
+            receiver_index = i;
+        }
+    }
+    if (sender_index == -1)
+    {
+        printf("Sender account not found!\n");
+        return;
+    }
+    if (receiver_index == -1)
+    {
+        printf("Receiver account not found!\n");
+        return;
+    }
+    if (sender_index == receiver_index)
+    {
+        printf("Cannot transfer money to the same account!\n");
+        return;
+    }
+    printf("Enter transfer ammount: ");
+    result = scanf("%f", &amount);
+
+    if (result != 1)
+    {
+        printf("Invalid input!\n");
+        while (getchar() != '\n')
+            ;
+        return;
+    }
+    if (amount <= 0)
+    {
+        printf("Invalid transfer ammount!\n");
+        return;
+    }
+
+    if (accounts[sender_index].balance < amount)
+    {
+        printf("Insufficient balance to transfer!\n");
+        return;
+    }
+    if (*transaction_count + 2 > 500)
+    {
+        printf("transaction history is full!\n");
+        return;
+    }
+
+    accounts[sender_index].balance -= amount;
+    accounts[receiver_index].balance += amount;
+
+    transactions[*transaction_count].account_number = sender_account_number;
+    strcpy(transactions[*transaction_count].type, "Transfer Out");
+    transactions[*transaction_count].amount = amount;
+    (*transaction_count)++;
+
+    transactions[*transaction_count].account_number = receiver_account_number;
+    strcpy(transactions[*transaction_count].type, "Transfer In");
+    transactions[*transaction_count].amount = amount;
+    (*transaction_count)++;
+
+    printf("Money transferred successfully!\n");
+}
+
 int main()
 {
     printf("====================================\n");
@@ -518,7 +632,8 @@ int main()
         printf("6. Transaction History:\n");
         printf("7. Update Account:\n");
         printf("8. Delete Account:\n");
-        printf("9. Exit:\n");
+        printf("9. Transfer Money:\n");
+        printf("10. Exit:\n");
         result = scanf("%d", &choice);
         if (result != 1)
         {
@@ -527,9 +642,9 @@ int main()
                 ;
             continue;
         }
-        if (choice < 1 || choice > 9)
+        if (choice < 1 || choice > 10)
         {
-            printf("Invalid input! Please enter 1-9.\n");
+            printf("Invalid input! Please enter 1-10.\n");
             continue;
         }
 
@@ -574,8 +689,12 @@ int main()
             save_accounts(accounts, account_count);
             save_transactions(transactions, transaction_count);
             break;
-            ;
         case 9:
+            transfer_money(accounts, account_count, transactions, &transaction_count);
+            save_accounts(accounts, account_count);
+            save_transactions(transactions, transaction_count);
+            break;
+        case 10:
             exit(0);
         default:
             break;
