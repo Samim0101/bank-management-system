@@ -601,24 +601,74 @@ void transfer_money(Account accounts[], int account_count, Transaction transacti
     accounts[receiver_index].balance += amount;
 
     transactions[*transaction_count].account_number = sender_account_number;
-strcpy(transactions[*transaction_count].type, "Transfer Out");
-transactions[*transaction_count].amount = amount;
+    strcpy(transactions[*transaction_count].type, "Transfer Out");
+    transactions[*transaction_count].amount = amount;
 
-strftime(transactions[*transaction_count].date_time, 30,
-         "%d-%m-%Y %H:%M:%S", local_time);
+    strftime(transactions[*transaction_count].date_time, 30,
+             "%d-%m-%Y %H:%M:%S", local_time);
 
-(*transaction_count)++;
+    (*transaction_count)++;
 
-transactions[*transaction_count].account_number = receiver_account_number;
-strcpy(transactions[*transaction_count].type, "Transfer In");
-transactions[*transaction_count].amount = amount;
+    transactions[*transaction_count].account_number = receiver_account_number;
+    strcpy(transactions[*transaction_count].type, "Transfer In");
+    transactions[*transaction_count].amount = amount;
 
-strftime(transactions[*transaction_count].date_time, 30,
-         "%d-%m-%Y %H:%M:%S", local_time);
+    strftime(transactions[*transaction_count].date_time, 30,
+             "%d-%m-%Y %H:%M:%S", local_time);
 
-(*transaction_count)++;
+    (*transaction_count)++;
 
     printf("Money transferred successfully!\n");
+}
+
+void account_summary(Account accounts[], int account_count, Transaction transactions[], int transaction_count)
+{
+    int account_number;
+    float deposits = 0;
+    float withdrawals = 0;
+    float transfer_out = 0;
+    float transfer_in = 0;
+
+    printf("Enter Account number: ");
+    scanf("%d", &account_number);
+
+    for (int i = 0; i < transaction_count; i++)
+    {
+        if (transactions[i].account_number == account_number)
+        {
+            if (strcmp(transactions[i].type, "Deposit") == 0)
+            {
+                deposits += transactions[i].amount;
+            }
+            else if (strcmp(transactions[i].type, "Withdraw") == 0)
+            {
+                withdrawals += transactions[i].amount;
+            }
+            else if (strcmp(transactions[i].type, "Transfer Out") == 0)
+            {
+                transfer_out += transactions[i].amount;
+            }
+            else if (strcmp(transactions[i].type, "Transfer In") == 0)
+            {
+                transfer_in += transactions[i].amount;
+            }
+        }
+    }
+    for (int j = 0; j < account_count; j++)
+    {
+        if (accounts[j].account_number == account_number)
+        {
+            printf("\n========== Account Summary ==========\n");
+            printf("Account Number: %d\n", accounts[j].account_number);
+            printf("Name: %s\n", accounts[j].name);
+            printf("Current Balance: %.2f\n", accounts[j].balance);
+
+            printf("Total Deposits: %.2f\n", deposits);
+            printf("Total Withdrawals: %.2f\n", withdrawals);
+            printf("Total Transfer Out: %.2f\n", transfer_out);
+            printf("Total Transfer In: %.2f\n", transfer_in);
+        }
+    }
 }
 
 int main()
@@ -646,7 +696,8 @@ int main()
         printf("7. Update Account:\n");
         printf("8. Delete Account:\n");
         printf("9. Transfer Money:\n");
-        printf("10. Exit:\n");
+        printf("10. Account Summary:\n");
+        printf("11. Exit:\n");
         result = scanf("%d", &choice);
         if (result != 1)
         {
@@ -655,9 +706,9 @@ int main()
                 ;
             continue;
         }
-        if (choice < 1 || choice > 10)
+        if (choice < 1 || choice > 11)
         {
-            printf("Invalid input! Please enter 1-10.\n");
+            printf("Invalid input! Please enter 1-11.\n");
             continue;
         }
 
@@ -708,6 +759,9 @@ int main()
             save_transactions(transactions, transaction_count);
             break;
         case 10:
+            account_summary(accounts, account_count, transactions, transaction_count);
+            break;
+        case 11:
             exit(0);
         default:
             break;
