@@ -70,14 +70,33 @@ void add_account(Account accounts[], int *account_count)
 
 void display_accounts(Account accounts[], int account_count)
 {
+    if (account_count == 0)
+    {
+        printf("\nNo accounts found!\n");
+        return;
+    }
+
+    printf("\n");
+    printf("================================================================\n");
+    printf("                      BANK ACCOUNT LIST\n");
+    printf("================================================================\n");
+
+    printf("+--------------+--------------------------------+----------------+\n");
+    printf("| %-12s | %-30s | %14s |\n",
+           "Account No.", "Account Holder", "Balance");
+    printf("+--------------+--------------------------------+----------------+\n");
+
     for (int i = 0; i < account_count; i++)
     {
-        printf("Your Account Number is: %d\n", accounts[i].account_number);
-
-        printf("Your Account Name is: %s\n", accounts[i].name);
-
-        printf("Your Bank Balance is: %.2f\n", accounts[i].balance);
+        printf("| %-12d | %-30.30s | %14.2f |\n",
+               accounts[i].account_number,
+               accounts[i].name,
+               accounts[i].balance);
     }
+
+    printf("+--------------+--------------------------------+----------------+\n");
+    printf("Total Accounts: %d\n", account_count);
+    printf("================================================================\n\n");
 }
 
 void search_account(Account accounts[], int account_count)
