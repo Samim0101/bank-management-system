@@ -296,11 +296,11 @@ void display_transaction_history(Transaction transactions[], int transaction_cou
 
     if (transaction_count == 0)
     {
-        printf("No transactions found! \n");
+        printf("\nNo transactions found!\n");
         return;
     }
 
-    printf("Enter Account Number: ");
+    printf("\nEnter Account Number: ");
     result = scanf("%d", &account_number);
 
     if (result != 1)
@@ -310,27 +310,45 @@ void display_transaction_history(Transaction transactions[], int transaction_cou
             ;
         return;
     }
+
     if (account_number <= 0)
     {
         printf("Invalid account number!\n");
         return;
     }
 
+    printf("\n");
+    printf("================================================================================\n");
+    printf("                           TRANSACTION HISTORY\n");
+    printf("================================================================================\n");
+
+    printf("+--------------+----------------+--------------+--------------------------+\n");
+    printf("| %-12s | %-14s | %12s | %-24s |\n",
+           "Account No.", "Type", "Amount", "Date & Time");
+    printf("+--------------+----------------+--------------+--------------------------+\n");
+
     for (int i = 0; i < transaction_count; i++)
     {
         if (transactions[i].account_number == account_number)
         {
-            printf("Your Account Number is: %d\n", transactions[i].account_number);
-            printf("Your Transaction Type: %s\n", transactions[i].type);
-            printf("Your Ammaount: %.2f\n", transactions[i].amount);
-            printf("Date & Time: %s\n", transactions[i].date_time);
+            printf("| %-12d | %-14.14s | %12.2f | %-24.24s |\n",
+                   transactions[i].account_number,
+                   transactions[i].type,
+                   transactions[i].amount,
+                   transactions[i].date_time);
+
             found = 1;
         }
     }
+
     if (found == 0)
     {
-        printf("No transactions found for this account!\n");
+        printf("|            No transactions found for account %-23d |\n",
+               account_number);
     }
+
+    printf("+--------------+----------------+--------------+--------------------------+\n");
+    printf("================================================================================\n\n");
 }
 
 void save_accounts(Account accounts[], int account_count)
