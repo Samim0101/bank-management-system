@@ -123,6 +123,8 @@ void deposit_money(Account accounts[], int account_count, Transaction transactio
     float deposit_ammaount;
     int result;
     int found = 0;
+    time_t now;
+    struct tm *local_time;
     printf("Enter your Account Number: ");
     result = scanf("%d", &account_number);
     if (result != 1)
@@ -167,6 +169,13 @@ void deposit_money(Account accounts[], int account_count, Transaction transactio
             transactions[*transaction_count].account_number = account_number;
             strcpy(transactions[*transaction_count].type, "Deposit");
             transactions[*transaction_count].amount = deposit_ammaount;
+            now = time(NULL);
+            local_time = localtime(&now);
+            strftime(
+                transactions[*transaction_count].date_time,
+                30,
+                "%d-%m-%Y %H:%M:%S",
+                local_time);
             (*transaction_count)++;
             found = 1;
         }
