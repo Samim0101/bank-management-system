@@ -192,6 +192,8 @@ void withdraw_money(Account accounts[], int account_count, Transaction transacti
     float withdraw_ammaount;
     int result;
     int found = 0;
+    time_t now;
+    struct tm *local_time;
     printf("Enter your Account Number: ");
     result = scanf("%d", &account_number);
     if (result != 1)
@@ -241,6 +243,14 @@ void withdraw_money(Account accounts[], int account_count, Transaction transacti
                 transactions[*transaction_count].account_number = account_number;
                 strcpy(transactions[*transaction_count].type, "Withdraw");
                 transactions[*transaction_count].amount = withdraw_ammaount;
+                now = time(NULL);
+                local_time = localtime(&now);
+
+                strftime(
+                    transactions[*transaction_count].date_time,
+                    30,
+                    "%d-%m-%Y %H:%M:%S",
+                    local_time);
                 (*transaction_count)++;
             }
             else
