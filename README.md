@@ -167,7 +167,7 @@ This project helped me practice and apply:
 
 Computer Science and Technology Student
 
-GitHub: [Your GitHub Profile](https://github.com/)
+GitHub: [My Github](https://github.com/Samim0101)
 
 ---
 
