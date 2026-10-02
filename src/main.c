@@ -729,42 +729,63 @@ void account_summary(Account accounts[], int account_count, Transaction transact
 
 int main()
 {
-    printf("====================================\n");
-    printf("       BANK MANAGEMENT SYSTEM       \n");
-    printf("====================================\n");
     Account accounts[100];
     int account_count = 0;
-    load_accounts(accounts, &account_count);
-    int choice;
-    int result;
+
     Transaction transactions[500];
     int transaction_count = 0;
+
+    int choice;
+    int result;
+
+    load_accounts(accounts, &account_count);
     load_transactions(transactions, &transaction_count);
+
     while (1)
     {
+        printf("\n");
+        printf("==================================================\n");
+        printf("              BANK MANAGEMENT SYSTEM              \n");
+        printf("==================================================\n");
 
-        printf("1. Add Account:\n");
-        printf("2. Display Account:\n");
-        printf("3. Search Account:\n");
-        printf("4. Deposit money:\n");
-        printf("5. Withdraw money:\n");
-        printf("6. Transaction History:\n");
-        printf("7. Update Account:\n");
-        printf("8. Delete Account:\n");
-        printf("9. Transfer Money:\n");
-        printf("10. Account Summary:\n");
-        printf("11. Exit:\n");
+        printf("\n");
+        printf("  ACCOUNT MANAGEMENT\n");
+        printf("  ------------------\n");
+        printf("  1. Add Account\n");
+        printf("  2. Display Accounts\n");
+        printf("  3. Search Account\n");
+        printf("  4. Update Account\n");
+        printf("  5. Delete Account\n");
+
+        printf("\n");
+        printf("  TRANSACTION MANAGEMENT\n");
+        printf("  ----------------------\n");
+        printf("  6. Deposit Money\n");
+        printf("  7. Withdraw Money\n");
+        printf("  8. Transfer Money\n");
+        printf("  9. Transaction History\n");
+        printf(" 10. Account Summary\n");
+
+        printf("\n");
+        printf("  0. Exit\n");
+        printf("==================================================\n");
+        printf("  Enter your choice: ");
+
         result = scanf("%d", &choice);
+
         if (result != 1)
         {
-            printf("Invalid input! Please enter a number.\n");
+            printf("\nInvalid input! Please enter a number.\n");
+
             while (getchar() != '\n')
                 ;
+
             continue;
         }
-        if (choice < 1 || choice > 11)
+
+        if (choice < 0 || choice > 10)
         {
-            printf("Invalid input! Please enter 1-11.\n");
+            printf("\nInvalid choice! Please enter a number between 0 and 10.\n");
             continue;
         }
 
@@ -774,28 +795,20 @@ int main()
             add_account(accounts, &account_count);
             save_accounts(accounts, account_count);
             break;
+
         case 2:
             display_accounts(accounts, account_count);
             break;
+
         case 3:
             search_account(accounts, account_count);
             break;
+
         case 4:
-            deposit_money(accounts, account_count, transactions, &transaction_count);
-            save_accounts(accounts, account_count);
-            save_transactions(transactions, transaction_count);
-            break;
-        case 5:
-            withdraw_money(accounts, account_count, transactions, &transaction_count);
-            save_accounts(accounts, account_count);
-            save_transactions(transactions, transaction_count);
-            break;
-        case 6:
-            display_transaction_history(transactions, transaction_count);
-            break;
-        case 7:
         {
-            int updated = update_account(accounts, account_count, transactions, transaction_count);
+            int updated = update_account(
+                accounts, account_count,
+                transactions, transaction_count);
 
             if (updated == 1)
             {
@@ -804,23 +817,58 @@ int main()
             }
             break;
         }
+
+        case 5:
+            delete_account(
+                accounts, &account_count,
+                transactions, &transaction_count);
+
+            save_accounts(accounts, account_count);
+            save_transactions(transactions, transaction_count);
+            break;
+
+        case 6:
+            deposit_money(
+                accounts, account_count,
+                transactions, &transaction_count);
+
+            save_accounts(accounts, account_count);
+            save_transactions(transactions, transaction_count);
+            break;
+
+        case 7:
+            withdraw_money(
+                accounts, account_count,
+                transactions, &transaction_count);
+
+            save_accounts(accounts, account_count);
+            save_transactions(transactions, transaction_count);
+            break;
+
         case 8:
-            delete_account(accounts, &account_count, transactions, &transaction_count);
+            transfer_money(
+                accounts, account_count,
+                transactions, &transaction_count);
+
             save_accounts(accounts, account_count);
             save_transactions(transactions, transaction_count);
             break;
+
         case 9:
-            transfer_money(accounts, account_count, transactions, &transaction_count);
-            save_accounts(accounts, account_count);
-            save_transactions(transactions, transaction_count);
+            display_transaction_history(
+                transactions, transaction_count);
             break;
+
         case 10:
-            account_summary(accounts, account_count, transactions, transaction_count);
+            account_summary(
+                accounts, account_count,
+                transactions, transaction_count);
             break;
-        case 11:
-            exit(0);
-        default:
-            break;
+
+        case 0:
+            printf("\nThank you for using our Bank Management System!\n");
+            printf("Goodbye!\n");
+            return 0;
         }
     }
 
