@@ -113,21 +113,29 @@ Make sure the `data` directory exists in the project root so the program can sav
 ## 🖥️ Main Menu
 
 ```text
-====================================
-       BANK MANAGEMENT SYSTEM
-====================================
+==================================================
+              BANK MANAGEMENT SYSTEM              
+==================================================
 
-1. Add Account
-2. Display Account
-3. Search Account
-4. Deposit Money
-5. Withdraw Money
-6. Transaction History
-7. Update Account
-8. Delete Account
-9. Transfer Money
-10. Account Summary
-11. Exit
+  ACCOUNT MANAGEMENT
+  ------------------
+  1. Add Account
+  2. Display Accounts
+  3. Search Account
+  4. Update Account
+  5. Delete Account
+
+  TRANSACTION MANAGEMENT
+  ----------------------
+  6. Deposit Money
+  7. Withdraw Money
+  8. Transfer Money
+  9. Transaction History
+ 10. Account Summary
+
+  0. Exit
+==================================================
+  Enter your choice:
 ```
 
 ## 💾 Data Storage
